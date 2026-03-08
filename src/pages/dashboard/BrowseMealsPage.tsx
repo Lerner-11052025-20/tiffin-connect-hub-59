@@ -1,11 +1,14 @@
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { Utensils } from "lucide-react";
+import { Utensils, ShoppingCart, CalendarDays } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import type { Json } from "@/integrations/supabase/types";
+import OrderDialog from "@/components/order/OrderDialog";
+import SubscribeDialog from "@/components/order/SubscribeDialog";
 
 export default function BrowseMealsPage() {
   const [mealFilter, setMealFilter] = useState<string>("all");
