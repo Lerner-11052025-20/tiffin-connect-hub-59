@@ -130,6 +130,16 @@ export default function MenuManagementPage() {
     return <div className="flex items-center justify-center py-20"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" /></div>;
   }
 
+  if (!vendor) {
+    return (
+      <div className="glass-card rounded-2xl p-16 text-center">
+        <span className="text-6xl block mb-4">👨‍🍳</span>
+        <h3 className="font-heading font-semibold text-foreground text-lg">Set up your business first</h3>
+        <p className="text-muted-foreground mt-2 text-sm">Go to <a href="/vendor/profile" className="text-primary underline">Business Profile</a> to create your vendor profile before managing menus.</p>
+      </div>
+    );
+  }
+
   return (
     <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
