@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Check } from "lucide-react";
+import { Check, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const plans = [
@@ -32,43 +32,54 @@ const plans = [
 
 export default function PricingSection() {
   return (
-    <section id="pricing" className="py-20">
+    <section id="pricing" className="py-24 relative overflow-hidden">
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-primary/[0.03] blur-[120px]" />
+      </div>
+
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <span className="text-sm font-semibold text-primary uppercase tracking-wide">
+          <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary uppercase tracking-widest glass-subtle rounded-full px-4 py-2">
             Pricing
           </span>
-          <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mt-2">
+          <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mt-6">
             Affordable Meal Plans
           </h2>
-          <p className="text-muted-foreground mt-3 max-w-md mx-auto">
+          <p className="text-muted-foreground mt-4 max-w-md mx-auto">
             Choose a plan that fits your lifestyle. Cancel or pause anytime.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
           {plans.map((plan, i) => (
             <motion.div
               key={plan.name}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className={`relative rounded-2xl p-8 transition-all ${
+              transition={{ delay: i * 0.12 }}
+              whileHover={!plan.popular ? { y: -8, transition: { duration: 0.3 } } : undefined}
+              className={`relative rounded-3xl p-8 transition-all duration-300 ${
                 plan.popular
-                  ? "bg-secondary text-secondary-foreground shadow-hero scale-105"
-                  : "bg-card shadow-card hover:shadow-card-hover"
+                  ? "glass-dark text-secondary-foreground shadow-hero scale-[1.04] ring-1 ring-primary/20 z-10"
+                  : "glass-card hover:shadow-card-hover"
               }`}
             >
               {plan.popular && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground text-xs font-bold px-4 py-1 rounded-full">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  className="absolute -top-3 left-1/2 -translate-x-1/2 gradient-hero text-primary-foreground text-xs font-bold px-5 py-1.5 rounded-full shadow-glow flex items-center gap-1.5"
+                >
+                  <Sparkles className="h-3 w-3" />
                   Most Popular
-                </div>
+                </motion.div>
               )}
 
               <h3 className={`font-heading font-bold text-xl ${plan.popular ? "" : "text-foreground"}`}>
@@ -78,29 +89,36 @@ export default function PricingSection() {
                 {plan.description}
               </p>
 
-              <div className="mt-6 mb-6">
-                <span className="font-heading text-4xl font-extrabold">{plan.price}</span>
-                <span className={`text-sm ${plan.popular ? "text-secondary-foreground/60" : "text-muted-foreground"}`}>
+              <div className="mt-8 mb-8">
+                <span className="font-heading text-5xl font-extrabold tracking-tight">{plan.price}</span>
+                <span className={`text-sm ml-1 ${plan.popular ? "text-secondary-foreground/60" : "text-muted-foreground"}`}>
                   {plan.period}
                 </span>
               </div>
 
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-3 mb-10">
                 {plan.features.map((f) => (
-                  <li key={f} className="flex items-center gap-2 text-sm">
-                    <Check className={`h-4 w-4 flex-shrink-0 ${plan.popular ? "text-accent" : "text-primary"}`} />
+                  <li key={f} className="flex items-center gap-3 text-sm">
+                    <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
+                      plan.popular ? "bg-accent/20" : "bg-primary/10"
+                    }`}>
+                      <Check className={`h-3 w-3 ${plan.popular ? "text-accent" : "text-primary"}`} />
+                    </div>
                     {f}
                   </li>
                 ))}
               </ul>
 
-              <Button
-                variant={plan.popular ? "accent" : "hero"}
-                className="w-full"
-                asChild
-              >
-                <Link to="/register">Get Started</Link>
-              </Button>
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button
+                  variant={plan.popular ? "accent" : "hero"}
+                  className={`w-full rounded-xl ${plan.popular ? "shadow-glow-accent" : ""}`}
+                  size="lg"
+                  asChild
+                >
+                  <Link to="/register">Subscribe Now</Link>
+                </Button>
+              </motion.div>
             </motion.div>
           ))}
         </div>
