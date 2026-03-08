@@ -16,7 +16,6 @@ import {
 import { NavLink } from "@/components/NavLink";
 import { LucideIcon, LogOut } from "lucide-react";
 import { motion } from "framer-motion";
-import { useAuth } from "@/hooks/useAuth";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -28,11 +27,9 @@ interface DashboardLayoutProps {
 function InnerSidebar({ navItems, groupLabel }: Pick<DashboardLayoutProps, "navItems" | "groupLabel">) {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
-  const { signOut } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = async () => {
-    await signOut();
+  const handleLogout = () => {
     navigate("/");
   };
 
