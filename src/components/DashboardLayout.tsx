@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Sidebar,
   SidebarContent,
@@ -16,6 +16,7 @@ import {
 import { NavLink } from "@/components/NavLink";
 import { LucideIcon, LogOut } from "lucide-react";
 import { motion } from "framer-motion";
+import { useAuth } from "@/hooks/useAuth";
 
 interface DashboardLayoutProps {
   children: ReactNode;
@@ -27,6 +28,13 @@ interface DashboardLayoutProps {
 function InnerSidebar({ navItems, groupLabel }: Pick<DashboardLayoutProps, "navItems" | "groupLabel">) {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate("/");
+  };
 
   return (
     <Sidebar collapsible="icon" className="border-r-0">
@@ -35,9 +43,7 @@ function InnerSidebar({ navItems, groupLabel }: Pick<DashboardLayoutProps, "navI
           <Link to="/" className="flex items-center gap-2">
             <motion.span whileHover={{ rotate: 12 }} className="text-xl">🍱</motion.span>
             {!collapsed && (
-              <span className="font-heading font-bold text-sm text-foreground">
-                TIFFIN<span className="text-gradient">CONNECT</span>
-              </span>
+              <span className="font-heading font-bold text-sm text-foreground">TIFFIN<span className="text-gradient">CONNECT</span></span>
             )}
           </Link>
         </div>
@@ -48,12 +54,7 @@ function InnerSidebar({ navItems, groupLabel }: Pick<DashboardLayoutProps, "navI
               {navItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink
-                      to={item.url}
-                      end
-                      className="hover:bg-primary/5 rounded-xl transition-all"
-                      activeClassName="bg-primary/10 text-primary font-medium shadow-sm"
-                    >
+                    <NavLink to={item.url} end className="hover:bg-primary/5 rounded-xl transition-all" activeClassName="bg-primary/10 text-primary font-medium shadow-sm">
                       <item.icon className="mr-2 h-4 w-4" />
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>
@@ -64,15 +65,11 @@ function InnerSidebar({ navItems, groupLabel }: Pick<DashboardLayoutProps, "navI
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Logout at bottom */}
         <div className="mt-auto p-4 border-t border-border/30">
-          <Link
-            to="/"
-            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
+          <button onClick={handleLogout} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors w-full">
             <LogOut className="h-4 w-4" />
             {!collapsed && <span>Log Out</span>}
-          </Link>
+          </button>
         </div>
       </SidebarContent>
     </Sidebar>
