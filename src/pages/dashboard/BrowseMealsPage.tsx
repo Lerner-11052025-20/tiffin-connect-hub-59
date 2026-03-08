@@ -12,6 +12,8 @@ import SubscribeDialog from "@/components/order/SubscribeDialog";
 
 export default function BrowseMealsPage() {
   const [mealFilter, setMealFilter] = useState<string>("all");
+  const [orderMenu, setOrderMenu] = useState<any>(null);
+  const [subscribeMenu, setSubscribeMenu] = useState<any>(null);
 
   const { data: menus, isLoading } = useQuery({
     queryKey: ["menus", mealFilter],
