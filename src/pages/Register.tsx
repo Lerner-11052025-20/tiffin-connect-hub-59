@@ -11,6 +11,7 @@ import { toast } from "sonner";
 const roles = [
   { value: "user", label: "Customer", emoji: "🍽️", desc: "Order daily meals" },
   { value: "vendor", label: "Tiffin Provider", emoji: "👨‍🍳", desc: "Serve home meals" },
+  { value: "admin", label: "Admin", emoji: "🛡️", desc: "Manage platform" },
 ];
 
 export default function Register() {
