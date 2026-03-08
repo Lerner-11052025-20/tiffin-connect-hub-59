@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useAuth } from "@/hooks/useAuth";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -16,15 +15,12 @@ const navLinks = [
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { user, role } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const dashboardLink = role === "vendor" ? "/vendor" : role === "admin" ? "/admin" : "/dashboard";
 
   return (
     <motion.nav
@@ -49,24 +45,14 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-3">
-          {user ? (
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Button variant="hero" className="shadow-glow" asChild>
-                <Link to={dashboardLink}>My Dashboard</Link>
-              </Button>
-            </motion.div>
-          ) : (
-            <>
-              <Button variant="ghost" className="text-muted-foreground hover:text-foreground" asChild>
-                <Link to="/login">Log In</Link>
-              </Button>
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Button variant="hero" className="shadow-glow" asChild>
-                  <Link to="/register">Get Started</Link>
-                </Button>
-              </motion.div>
-            </>
-          )}
+          <Button variant="ghost" className="text-muted-foreground hover:text-foreground" asChild>
+            <Link to="/login">Log In</Link>
+          </Button>
+          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            <Button variant="hero" className="shadow-glow" asChild>
+              <Link to="/register">Get Started</Link>
+            </Button>
+          </motion.div>
         </div>
 
         <motion.button whileTap={{ scale: 0.9 }} className="md:hidden text-foreground p-2 rounded-lg hover:bg-primary/5" onClick={() => setMobileOpen(!mobileOpen)}>
@@ -90,20 +76,12 @@ export default function Navbar() {
                 </motion.a>
               ))}
               <div className="flex gap-3 pt-3 mt-2 border-t border-border/50">
-                {user ? (
-                  <Button variant="hero" className="flex-1 rounded-xl shadow-glow" asChild>
-                    <Link to={dashboardLink}>My Dashboard</Link>
-                  </Button>
-                ) : (
-                  <>
-                    <Button variant="outline" className="flex-1 rounded-xl" asChild>
-                      <Link to="/login">Log In</Link>
-                    </Button>
-                    <Button variant="hero" className="flex-1 rounded-xl shadow-glow" asChild>
-                      <Link to="/register">Get Started</Link>
-                    </Button>
-                  </>
-                )}
+                <Button variant="outline" className="flex-1 rounded-xl" asChild>
+                  <Link to="/login">Log In</Link>
+                </Button>
+                <Button variant="hero" className="flex-1 rounded-xl shadow-glow" asChild>
+                  <Link to="/register">Get Started</Link>
+                </Button>
               </div>
             </div>
           </motion.div>
