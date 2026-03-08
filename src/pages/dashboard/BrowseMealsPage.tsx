@@ -128,6 +128,8 @@ export default function BrowseMealsPage() {
           <p className="text-muted-foreground mt-2 text-sm">Check back soon for new meal offerings!</p>
         </motion.div>
       )}
+      <OrderDialog menu={orderMenu} open={!!orderMenu} onOpenChange={(o) => !o && setOrderMenu(null)} />
+      <SubscribeDialog menu={subscribeMenu} open={!!subscribeMenu} onOpenChange={(o) => !o && setSubscribeMenu(null)} />
     </motion.div>
   );
 }
