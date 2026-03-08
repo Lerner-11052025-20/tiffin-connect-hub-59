@@ -104,9 +104,19 @@ export default function BrowseMealsPage() {
                 {renderItems(menu.items)}
               </div>
 
-              <div className="mt-auto flex items-center justify-between pt-3 border-t border-border/30">
-                <p className="font-heading font-bold text-foreground text-lg">₹{Number(menu.price).toLocaleString()}</p>
-                <span className="text-xs text-muted-foreground">per meal</span>
+              <div className="mt-auto pt-3 border-t border-border/30 space-y-3">
+                <div className="flex items-center justify-between">
+                  <p className="font-heading font-bold text-foreground text-lg">₹{Number(menu.price).toLocaleString()}</p>
+                  <span className="text-xs text-muted-foreground">per meal</span>
+                </div>
+                <div className="flex gap-2">
+                  <Button size="sm" className="flex-1" onClick={() => setOrderMenu(menu)}>
+                    <ShoppingCart className="h-3.5 w-3.5 mr-1" /> Order
+                  </Button>
+                  <Button size="sm" variant="outline" className="flex-1" onClick={() => setSubscribeMenu(menu)}>
+                    <CalendarDays className="h-3.5 w-3.5 mr-1" /> Subscribe
+                  </Button>
+                </div>
               </div>
             </motion.div>
           ))}
