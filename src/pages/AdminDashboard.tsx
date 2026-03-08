@@ -1,6 +1,7 @@
 import DashboardLayout from "@/components/DashboardLayout";
 import { LayoutDashboard, Users, ChefHat, Package, BarChart3 } from "lucide-react";
 import { Routes, Route } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const navItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
@@ -10,37 +11,60 @@ const navItems = [
   { title: "Analytics", url: "/admin/analytics", icon: BarChart3 },
 ];
 
+const container = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.08 } },
+};
+const item = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0 },
+};
+
 function AdminHome() {
   return (
-    <div className="space-y-6">
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
+      <motion.div variants={container} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: "Total Users", value: "1,245" },
-          { label: "Active Vendors", value: "38" },
-          { label: "Orders Today", value: "312" },
-          { label: "Revenue (MTD)", value: "₹2,45,600" },
+          { label: "Total Users", value: "1,245", icon: "👤", trend: "+12%" },
+          { label: "Active Vendors", value: "38", icon: "👨‍🍳", trend: "+3" },
+          { label: "Orders Today", value: "312", icon: "📦", trend: "+18%" },
+          { label: "Revenue (MTD)", value: "₹2,45,600", icon: "📊", trend: "+24%" },
         ].map((stat) => (
-          <div key={stat.label} className="bg-card rounded-xl p-5 shadow-card">
-            <p className="text-sm text-muted-foreground">{stat.label}</p>
-            <p className="font-heading text-2xl font-bold text-foreground mt-1">{stat.value}</p>
-          </div>
+          <motion.div
+            key={stat.label}
+            variants={item}
+            whileHover={{ y: -4, transition: { duration: 0.2 } }}
+            className="glass-card rounded-2xl p-6 hover:shadow-card-hover transition-all duration-300"
+          >
+            <div className="flex items-center justify-between">
+              <p className="text-sm text-muted-foreground">{stat.label}</p>
+              <span className="text-2xl">{stat.icon}</span>
+            </div>
+            <p className="font-heading text-2xl font-bold text-foreground mt-2">{stat.value}</p>
+            <span className="text-xs font-semibold text-primary mt-1 inline-block">{stat.trend}</span>
+          </motion.div>
         ))}
-      </div>
-      <div className="bg-card rounded-xl p-6 shadow-card">
+      </motion.div>
+
+      <motion.div variants={item} className="glass-card rounded-2xl p-6 hover:shadow-card-hover transition-all">
         <h2 className="font-heading font-semibold text-foreground text-lg mb-4">Platform Overview</h2>
         <p className="text-muted-foreground">Connect Lovable Cloud for live analytics, user management, and order tracking.</p>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
 function PlaceholderPage({ title }: { title: string }) {
   return (
-    <div className="bg-card rounded-xl p-12 shadow-card text-center">
-      <span className="text-5xl block mb-4">⚙️</span>
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="glass-card rounded-2xl p-16 text-center"
+    >
+      <span className="text-6xl block mb-5">⚙️</span>
       <h2 className="font-heading font-semibold text-foreground text-xl">{title}</h2>
-      <p className="text-muted-foreground mt-2">Connect backend to manage {title.toLowerCase()}.</p>
-    </div>
+      <p className="text-muted-foreground mt-3">Connect backend to manage {title.toLowerCase()}.</p>
+    </motion.div>
   );
 }
 
