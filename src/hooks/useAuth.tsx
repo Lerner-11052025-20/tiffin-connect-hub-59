@@ -36,14 +36,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    // Set up auth listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
-
         if (session?.user) {
-          // Use setTimeout to avoid Supabase deadlock
           setTimeout(async () => {
             const r = await fetchRole(session.user.id);
             setRole(r);
@@ -56,7 +53,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     );
 
-    // Then get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
