@@ -96,7 +96,7 @@ export default function AdminHome() {
 
       {/* Pending Vendors Alert */}
       {vendors && vendors.pending > 0 && (
-        <motion.div variants={item} className="glass-card rounded-2xl p-5 border-l-4 border-yellow-400 bg-yellow-50/50">
+        <motion.div variants={item} className="glass-card rounded-2xl p-5 border-l-4 border-yellow-400 bg-yellow-50/50 dark:bg-yellow-900/20">
           <p className="font-heading font-semibold text-foreground">⏳ {vendors.pending} vendor(s) pending approval</p>
           <p className="text-sm text-muted-foreground mt-1">Go to <a href="/admin/vendors" className="text-primary underline">Vendors</a> to review and approve.</p>
         </motion.div>

@@ -119,7 +119,7 @@ export default function VendorsPage() {
                     size="sm"
                     variant="outline"
                     onClick={() => updateVendor.mutate({ id: v.id, updates: { is_active: !v.is_active } })}
-                    className={v.is_active ? "text-destructive border-destructive/20 hover:bg-destructive/5 gap-1" : "text-green-600 border-green-200 hover:bg-green-50 gap-1"}
+                    className={v.is_active ? "text-destructive border-destructive/20 hover:bg-destructive/5 gap-1" : "text-green-600 border-green-200 hover:bg-green-50 dark:text-green-400 dark:border-green-800 dark:hover:bg-green-900/30 gap-1"}
                   >
                     <Ban className="h-3.5 w-3.5" /> {v.is_active ? "Deactivate" : "Activate"}
                   </Button>

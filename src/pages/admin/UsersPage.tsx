@@ -55,9 +55,9 @@ export default function UsersPage() {
 
   const roleColor = (role: string) => {
     switch (role) {
-      case "admin": return "bg-red-100 text-red-700 border-red-200";
-      case "vendor": return "bg-blue-100 text-blue-700 border-blue-200";
-      default: return "bg-green-100 text-green-700 border-green-200";
+      case "admin": return "bg-red-100 text-red-700 border-red-200 dark:bg-red-900/40 dark:text-red-300 dark:border-red-800";
+      case "vendor": return "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800";
+      default: return "bg-green-100 text-green-700 border-green-200 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800";
     }
   };
 
