@@ -87,7 +87,8 @@ export default function SubscribeDialog({ menu, open, onOpenChange }: SubscribeD
       endDate.setDate(endDate.getDate() + plan.days);
       const totalAmount = menu.price * plan.days;
 
-      const { error } = await supabase.from("subscriptions").insert({
+      // Create subscription
+      const { data: subscription, error: subError } = await supabase.from("subscriptions").insert({
         user_id: user.id,
         vendor_id: menu.vendor_id,
         menu_id: menu.id,
@@ -99,12 +100,36 @@ export default function SubscribeDialog({ menu, open, onOpenChange }: SubscribeD
         lunch_time: menu.meal_type !== "dinner" ? lunchTime : null,
         dinner_time: menu.meal_type !== "lunch" ? dinnerTime : null,
         delivery_address_id: addressId || null,
-      });
-      if (error) throw error;
+      }).select().single();
+      if (subError) throw subError;
+
+      // Auto-generate daily orders for the subscription period
+      const orders = [];
+      for (let i = 0; i < plan.days; i++) {
+        const deliveryDate = new Date(startDate);
+        deliveryDate.setDate(deliveryDate.getDate() + i);
+        const deliveryTime = menu.meal_type === "dinner" ? dinnerTime : lunchTime;
+        orders.push({
+          user_id: user.id,
+          vendor_id: menu.vendor_id,
+          menu_id: menu.id,
+          subscription_id: subscription.id,
+          meal_type: menu.meal_type,
+          amount: menu.price,
+          delivery_date: deliveryDate.toISOString().split("T")[0],
+          delivery_time: deliveryTime,
+          delivery_address_id: addressId || null,
+          items: menu.items,
+          status: "pending",
+        });
+      }
+      const { error: ordersError } = await supabase.from("orders").insert(orders);
+      if (ordersError) throw ordersError;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["subscriptions"] });
-      toast.success("Subscribed successfully! 🎉");
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      toast.success("Subscribed successfully! Daily orders created 🎉");
       onOpenChange(false);
     },
     onError: () => toast.error("Failed to subscribe"),

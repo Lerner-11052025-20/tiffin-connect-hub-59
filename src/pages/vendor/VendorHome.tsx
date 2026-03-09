@@ -3,6 +3,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { format } from "date-fns";
+import { CalendarDays, Users } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 const container = {
   hidden: { opacity: 0 },
@@ -36,7 +38,7 @@ export default function VendorHome() {
       const today = format(new Date(), "yyyy-MM-dd");
       const { data } = await supabase
         .from("orders")
-        .select("*, profiles!orders_user_id_fkey(full_name)")
+        .select("*")
         .eq("vendor_id", vendor!.id)
         .eq("delivery_date", today)
         .order("created_at", { ascending: false });
@@ -44,16 +46,25 @@ export default function VendorHome() {
     },
   });
 
-  const { data: activeSubscribers } = useQuery({
-    queryKey: ["vendor-subscribers", vendor?.id],
+  const { data: activeSubscriptions } = useQuery({
+    queryKey: ["vendor-active-subscriptions", vendor?.id],
     enabled: !!vendor,
     queryFn: async () => {
-      const { data } = await supabase
+      const { data: subs } = await supabase
         .from("subscriptions")
-        .select("id")
+        .select("*, menus(name, meal_type)")
         .eq("vendor_id", vendor!.id)
-        .eq("status", "active");
-      return data ?? [];
+        .eq("status", "active")
+        .order("created_at", { ascending: false });
+      if (!subs || subs.length === 0) return [];
+      // Fetch profiles for subscriber user_ids
+      const userIds = [...new Set(subs.map(s => s.user_id))];
+      const { data: profiles } = await supabase
+        .from("profiles")
+        .select("user_id, full_name, phone")
+        .in("user_id", userIds);
+      const profileMap = new Map((profiles ?? []).map(p => [p.user_id, p]));
+      return subs.map(s => ({ ...s, profiles: profileMap.get(s.user_id) || null }));
     },
   });
 
@@ -79,11 +90,11 @@ export default function VendorHome() {
 
   const statusColor = (status: string) => {
     switch (status) {
-      case "delivered": return "bg-green-100 text-green-700";
-      case "pending": return "bg-yellow-100 text-yellow-700";
-      case "preparing": return "bg-blue-100 text-blue-700";
-      case "out_for_delivery": return "bg-purple-100 text-purple-700";
-      case "cancelled": return "bg-red-100 text-red-700";
+      case "delivered": return "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300";
+      case "pending": return "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-300";
+      case "preparing": return "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300";
+      case "out_for_delivery": return "bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300";
+      case "cancelled": return "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300";
       default: return "bg-muted text-muted-foreground";
     }
   };
@@ -114,7 +125,7 @@ export default function VendorHome() {
           { label: "Today's Orders", value: String(todayOrders?.length ?? 0), icon: "📦", gradient: "from-primary/10 to-accent/10" },
           { label: "Pending", value: String(pendingCount), icon: "🚚", gradient: "from-accent/10 to-primary/5" },
           { label: "Today's Earnings", value: `₹${todayEarnings.toLocaleString()}`, icon: "💰", gradient: "from-primary/5 to-accent/10" },
-          { label: "Active Subscribers", value: String(activeSubscribers?.length ?? 0), icon: "👥", gradient: "from-accent/10 to-primary/10" },
+          { label: "Active Subscribers", value: String(activeSubscriptions?.length ?? 0), icon: "👥", gradient: "from-accent/10 to-primary/10" },
         ].map((stat) => (
           <motion.div
             key={stat.label}
@@ -131,6 +142,47 @@ export default function VendorHome() {
         ))}
       </motion.div>
 
+      {/* Active Subscriptions Section */}
+      <motion.div variants={item} className="glass-card rounded-2xl p-6 hover:shadow-card-hover transition-all">
+        <h2 className="font-heading font-semibold text-foreground text-lg mb-5 flex items-center gap-2">
+          <CalendarDays className="h-5 w-5 text-primary" /> Active Subscriptions
+        </h2>
+        {activeSubscriptions && activeSubscriptions.length > 0 ? (
+          <div className="space-y-3">
+            {activeSubscriptions.map((sub: any) => (
+              <div key={sub.id} className="flex flex-col sm:flex-row sm:items-center justify-between border border-border/30 rounded-xl p-4 glass-subtle gap-3">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <Users className="h-4 w-4 text-primary" />
+                    <p className="font-medium text-foreground text-sm">
+                      {sub.profiles?.full_name || "Customer"}
+                    </p>
+                    {sub.profiles?.phone && (
+                      <span className="text-xs text-muted-foreground">· {sub.profiles.phone}</span>
+                    )}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {sub.menus?.name} · <span className="capitalize">{sub.meal_type}</span> · <span className="capitalize">{sub.plan_type}</span>
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {format(new Date(sub.start_date), "dd MMM")} → {sub.end_date ? format(new Date(sub.end_date), "dd MMM yyyy") : "Ongoing"}
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <p className="font-heading font-bold text-foreground text-sm">₹{Number(sub.amount).toLocaleString()}</p>
+                  <Badge variant="outline" className="bg-green-100 text-green-700 border-green-200 dark:bg-green-900/40 dark:text-green-300 dark:border-green-700 text-xs">
+                    Active
+                  </Badge>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-muted-foreground text-center py-4">No active subscriptions yet.</p>
+        )}
+      </motion.div>
+
+      {/* Recent Orders */}
       <motion.div variants={item} className="glass-card rounded-2xl p-6 hover:shadow-card-hover transition-all">
         <h2 className="font-heading font-semibold text-foreground text-lg mb-5">Recent Orders</h2>
         {recentOrders && recentOrders.length > 0 ? (
