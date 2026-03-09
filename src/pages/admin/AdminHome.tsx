@@ -56,11 +56,11 @@ export default function AdminHome() {
 
   const statusColor = (status: string) => {
     switch (status) {
-      case "delivered": return "bg-green-100 text-green-700";
-      case "pending": return "bg-yellow-100 text-yellow-700";
-      case "preparing": return "bg-blue-100 text-blue-700";
-      case "out_for_delivery": return "bg-purple-100 text-purple-700";
-      case "cancelled": return "bg-red-100 text-red-700";
+      case "delivered": return "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300";
+      case "pending": return "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-300";
+      case "preparing": return "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300";
+      case "out_for_delivery": return "bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300";
+      case "cancelled": return "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300";
       default: return "bg-muted text-muted-foreground";
     }
   };
@@ -96,7 +96,7 @@ export default function AdminHome() {
 
       {/* Pending Vendors Alert */}
       {vendors && vendors.pending > 0 && (
-        <motion.div variants={item} className="glass-card rounded-2xl p-5 border-l-4 border-yellow-400 bg-yellow-50/50">
+        <motion.div variants={item} className="glass-card rounded-2xl p-5 border-l-4 border-yellow-400 bg-yellow-50/50 dark:bg-yellow-900/20">
           <p className="font-heading font-semibold text-foreground">⏳ {vendors.pending} vendor(s) pending approval</p>
           <p className="text-sm text-muted-foreground mt-1">Go to <a href="/admin/vendors" className="text-primary underline">Vendors</a> to review and approve.</p>
         </motion.div>
