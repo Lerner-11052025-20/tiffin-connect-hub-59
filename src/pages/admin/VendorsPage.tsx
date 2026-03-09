@@ -78,12 +78,12 @@ export default function VendorsPage() {
                   <div className="flex items-center gap-3">
                     <h3 className="font-heading font-semibold text-foreground">{v.business_name}</h3>
                     {v.is_approved ? (
-                      <Badge variant="outline" className="text-xs bg-green-100 text-green-700 border-green-200">Approved</Badge>
+                      <Badge variant="outline" className="text-xs bg-green-100 text-green-700 border-green-200 dark:bg-green-900/40 dark:text-green-300 dark:border-green-800">Approved</Badge>
                     ) : (
-                      <Badge variant="outline" className="text-xs bg-yellow-100 text-yellow-700 border-yellow-200">Pending</Badge>
+                      <Badge variant="outline" className="text-xs bg-yellow-100 text-yellow-700 border-yellow-200 dark:bg-yellow-900/40 dark:text-yellow-300 dark:border-yellow-800">Pending</Badge>
                     )}
                     {!v.is_active && (
-                      <Badge variant="outline" className="text-xs bg-red-100 text-red-700 border-red-200">Inactive</Badge>
+                      <Badge variant="outline" className="text-xs bg-red-100 text-red-700 border-red-200 dark:bg-red-900/40 dark:text-red-300 dark:border-red-800">Inactive</Badge>
                     )}
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm">
