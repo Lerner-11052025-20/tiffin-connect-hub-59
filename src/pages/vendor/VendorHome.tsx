@@ -50,13 +50,21 @@ export default function VendorHome() {
     queryKey: ["vendor-active-subscriptions", vendor?.id],
     enabled: !!vendor,
     queryFn: async () => {
-      const { data } = await supabase
+      const { data: subs } = await supabase
         .from("subscriptions")
-        .select("*, profiles!subscriptions_user_id_fkey(full_name, phone), menus(name, meal_type)")
+        .select("*, menus(name, meal_type)")
         .eq("vendor_id", vendor!.id)
         .eq("status", "active")
         .order("created_at", { ascending: false });
-      return data ?? [];
+      if (!subs || subs.length === 0) return [];
+      // Fetch profiles for subscriber user_ids
+      const userIds = [...new Set(subs.map(s => s.user_id))];
+      const { data: profiles } = await supabase
+        .from("profiles")
+        .select("user_id, full_name, phone")
+        .in("user_id", userIds);
+      const profileMap = new Map((profiles ?? []).map(p => [p.user_id, p]));
+      return subs.map(s => ({ ...s, profiles: profileMap.get(s.user_id) || null }));
     },
   });
 
