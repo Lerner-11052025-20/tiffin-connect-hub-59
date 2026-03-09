@@ -110,7 +110,7 @@ export default function VendorsPage() {
                       size="sm"
                       variant="outline"
                       onClick={() => updateVendor.mutate({ id: v.id, updates: { is_approved: false } })}
-                      className="text-yellow-600 border-yellow-200 hover:bg-yellow-50 gap-1"
+                      className="text-yellow-600 border-yellow-200 hover:bg-yellow-50 dark:text-yellow-400 dark:border-yellow-800 dark:hover:bg-yellow-900/30 gap-1"
                     >
                       <XCircle className="h-3.5 w-3.5" /> Revoke
                     </Button>
