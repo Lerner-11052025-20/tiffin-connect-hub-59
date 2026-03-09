@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/sidebar";
 import { NavLink } from "@/components/NavLink";
 import { LucideIcon, LogOut, Zap } from "lucide-react";
+import ThemeToggle from "@/components/ThemeToggle";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/useAuth";
 
