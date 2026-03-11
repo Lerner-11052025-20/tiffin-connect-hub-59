@@ -1,16 +1,32 @@
+import React, { lazy, Suspense } from "react";
 import DashboardLayout from "@/components/DashboardLayout";
-import { LayoutDashboard, Utensils, CalendarDays, Truck, Clock, User } from "lucide-react";
+import { LayoutGrid, Utensils, CalendarDays, Truck, Clock, User, Sparkles } from "lucide-react";
 import { Routes, Route } from "react-router-dom";
-import DashboardHome from "./dashboard/DashboardHome";
-import SubscriptionPage from "./dashboard/SubscriptionPage";
-import OrderHistoryPage from "./dashboard/OrderHistoryPage";
-import BrowseMealsPage from "./dashboard/BrowseMealsPage";
-import TrackOrderPage from "./dashboard/TrackOrderPage";
-import ProfilePage from "./dashboard/ProfilePage";
+import { SkeletonBox } from "@/components/PremiumLoader";
+
+// High-Performance Dynamic Imports
+const DashboardHome = lazy(() => import("./dashboard/DashboardHome"));
+const SubscriptionPage = lazy(() => import("./dashboard/SubscriptionPage"));
+const OrderHistoryPage = lazy(() => import("./dashboard/OrderHistoryPage"));
+const BrowseMealsPage = lazy(() => import("./dashboard/BrowseMealsPage"));
+const WeeklyPlannerPage = lazy(() => import("./dashboard/WeeklyPlannerPage"));
+const TrackOrderPage = lazy(() => import("./dashboard/TrackOrderPage"));
+const ProfilePage = lazy(() => import("./dashboard/ProfilePage"));
+
+const ModuleLoader = () => (
+  <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+    <div className="flex items-center gap-6">
+       <SkeletonBox className="h-44 flex-1" />
+       <SkeletonBox className="h-44 w-1/3" />
+    </div>
+    <SkeletonBox className="h-96 w-full" />
+  </div>
+);
 
 const navItems = [
-  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+  { title: "Dashboard", url: "/dashboard", icon: LayoutGrid },
   { title: "Browse Meals", url: "/dashboard/meals", icon: Utensils },
+  { title: "Weekly Planner", url: "/dashboard/planner", icon: Sparkles },
   { title: "My Subscription", url: "/dashboard/subscription", icon: CalendarDays },
   { title: "Track Order", url: "/dashboard/track", icon: Truck },
   { title: "Order History", url: "/dashboard/history", icon: Clock },
@@ -19,6 +35,7 @@ const navItems = [
 
 const pages: Record<string, { title: string; component: React.FC }> = {
   meals: { title: "Browse Meals", component: BrowseMealsPage },
+  planner: { title: "Weekly Planner", component: WeeklyPlannerPage },
   subscription: { title: "My Subscription", component: SubscriptionPage },
   track: { title: "Track Order", component: TrackOrderPage },
   history: { title: "Order History", component: OrderHistoryPage },
@@ -27,26 +44,39 @@ const pages: Record<string, { title: string; component: React.FC }> = {
 
 export default function UserDashboard() {
   return (
-    <Routes>
-      <Route
-        index
-        element={
-          <DashboardLayout title="Dashboard" navItems={navItems} groupLabel="Menu">
-            <DashboardHome />
-          </DashboardLayout>
-        }
-      />
-      {Object.entries(pages).map(([path, { title, component: Component }]) => (
+    <Suspense fallback={<ModuleLoader />}>
+      <Routes>
         <Route
-          key={path}
-          path={path}
+          index
           element={
-            <DashboardLayout title={title} navItems={navItems} groupLabel="Menu">
-              <Component />
+            <DashboardLayout title="Overview" navItems={navItems} groupLabel="Customer Dashboard">
+              <DashboardHome />
             </DashboardLayout>
           }
         />
-      ))}
-    </Routes>
+        {Object.entries(pages).map(([path, { title, component: Component }]) => (
+          <React.Fragment key={path}>
+            <Route
+              path={path}
+              element={
+                <DashboardLayout title={title} navItems={navItems} groupLabel="Customer Dashboard">
+                  <Component />
+                </DashboardLayout>
+              }
+            />
+            {path === 'track' && (
+              <Route
+                path="track/:id"
+                element={
+                  <DashboardLayout title={title} navItems={navItems} groupLabel="Customer Dashboard">
+                    <Component />
+                  </DashboardLayout>
+                }
+              />
+            )}
+          </React.Fragment>
+        ))}
+      </Routes>
+    </Suspense>
   );
 }

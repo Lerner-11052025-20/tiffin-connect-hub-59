@@ -1,220 +1,162 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button-premium";
 import { Link } from "react-router-dom";
+import { ArrowRight, Utensils, Star, ShieldCheck, Zap, Activity, Users, ChefHat } from "lucide-react";
 import { motion } from "framer-motion";
-import { ArrowRight, Clock, MapPin, Utensils, Star, Sparkles, TrendingUp } from "lucide-react";
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, delay: i * 0.12, ease: "easeOut" as const },
-  }),
-};
+import NumberTicker from "@/components/ui/number-ticker";
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden pt-20 pb-28 md:pt-32 md:pb-40">
-      {/* Background */}
-      <div className="absolute inset-0 -z-10 mesh-bg dot-pattern" />
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <motion.div
-          animate={{ x: [0, 40, 0], y: [0, -30, 0] }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute top-0 right-[5%] w-[500px] h-[500px] rounded-full bg-primary/[0.07] blur-[100px]"
-        />
-        <motion.div
-          animate={{ x: [0, -30, 0], y: [0, 40, 0] }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-0 left-[5%] w-[600px] h-[600px] rounded-full bg-accent/[0.06] blur-[120px]"
-        />
-      </div>
+    <section id="hero" className="relative min-h-[85vh] flex items-center pt-36 pb-16 overflow-hidden bg-transparent">
+      {/* Background Architecture */}
+      <div className="bg-mesh opacity-20" />
+      <div className="absolute top-[-10%] right-[-10%] w-[60%] h-[60%] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-500/5 rounded-full blur-[80px] pointer-events-none" />
 
-      <div className="container mx-auto px-4">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left Content */}
-          <div>
-            <motion.div
-              custom={0}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="inline-flex items-center gap-2 rounded-full glass-card px-4 py-2 mb-8 shadow-soft"
-            >
-              <div className="w-5 h-5 rounded-full gradient-hero flex items-center justify-center">
-                <Sparkles className="h-3 w-3 text-primary-foreground" />
-              </div>
-              <span className="text-xs font-semibold text-foreground tracking-wide">
-                #1 Smart Meal Delivery Platform
-              </span>
-              <TrendingUp className="h-3 w-3 text-primary" />
-            </motion.div>
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="grid lg:grid-cols-12 gap-10 items-center">
 
-            <motion.h1
-              custom={1}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="font-heading text-4xl md:text-5xl lg:text-[3.75rem] font-extrabold leading-[1.08] text-foreground"
-            >
-              Fresh Homemade{" "}
-              <span className="relative">
-                <span className="text-gradient">Meals</span>
-                <motion.svg
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ delay: 1, duration: 0.8, ease: "easeOut" }}
-                  className="absolute -bottom-2 left-0 w-full"
-                  viewBox="0 0 200 12"
-                  fill="none"
-                >
-                  <motion.path
-                    d="M2 8 C40 2, 80 2, 100 6 C120 10, 160 10, 198 4"
-                    stroke="hsl(158, 64%, 52%)"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    fill="none"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ delay: 1, duration: 0.8, ease: "easeOut" }}
-                  />
-                </motion.svg>
-              </span>
-              ,{"\n"}Delivered Daily
-            </motion.h1>
-
-            <motion.p
-              custom={2}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="mt-7 text-lg text-muted-foreground max-w-lg leading-relaxed"
-            >
-              Affordable lunch & dinner tiffin subscriptions from trusted local cooks.
-              Customize your menu, pick your timing, and enjoy home-style meals.
-            </motion.p>
-
-            <motion.div
-              custom={3}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="flex flex-wrap gap-4 mt-10"
-            >
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                <Button variant="hero" size="lg" className="shadow-glow rounded-2xl text-base px-8 h-13" asChild>
-                  <Link to="/register">
-                    Start Ordering <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="rounded-2xl text-base px-8 h-13 glass-card border-border/50 hover:shadow-card-hover"
-                  asChild
-                >
-                  <a href="#how-it-works">Explore Meals</a>
-                </Button>
-              </motion.div>
-            </motion.div>
-
-            {/* Trust indicators */}
-            <motion.div
-              custom={4}
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              className="flex flex-wrap gap-5 mt-14"
-            >
-              {[
-                { icon: Utensils, label: "500+", sub: "Meal Plans" },
-                { icon: Clock, label: "98%", sub: "On-Time" },
-                { icon: MapPin, label: "50+", sub: "Areas" },
-              ].map((stat) => (
-                <motion.div
-                  key={stat.label}
-                  whileHover={{ y: -3, transition: { duration: 0.2 } }}
-                  className="flex items-center gap-3 glass-card rounded-2xl px-5 py-3.5 shadow-soft"
-                >
-                  <div className="w-10 h-10 rounded-xl gradient-hero flex items-center justify-center shadow-glow">
-                    <stat.icon className="h-4.5 w-4.5 text-primary-foreground" />
-                  </div>
-                  <div>
-                    <p className="text-base font-bold text-foreground leading-none">{stat.label}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">{stat.sub}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Right Visual */}
+          {/* Left Content: High-Performance Messaging */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.85, y: 30 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="relative hidden lg:block"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="lg:col-span-7 flex flex-col gap-6"
           >
-            <div className="relative w-full aspect-square max-w-lg mx-auto">
-              {/* Decorative ring */}
-              <div className="absolute inset-0 rounded-full border-2 border-dashed border-primary/10 animate-spin-slow" />
-              <div className="absolute inset-6 rounded-full bg-primary/[0.04] animate-pulse-glow" />
-              <div className="absolute inset-14 rounded-full bg-accent/[0.05]" />
+            <div className="flex flex-col gap-4">
+              <div className="badge-premium w-fit border-emerald-500/20 bg-emerald-500/5">
+                <span className="flex items-center gap-2">
+                  <Activity className="w-3 h-3 text-emerald-500" />
+                  Live Operational Hub
+                </span>
+              </div>
 
-              {/* Main card */}
-              <motion.div
-                className="absolute inset-20 rounded-3xl glass-card-strong shadow-elevated flex items-center justify-center"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <div className="text-center p-6">
-                  <span className="text-7xl block mb-4">🍱</span>
-                  <p className="font-heading font-bold text-2xl text-foreground">Today's Thali</p>
-                  <p className="text-sm text-muted-foreground mt-1.5">Roti • Dal • Sabji • Rice • Salad</p>
-                  <div className="mt-5 inline-flex items-center gap-1.5 gradient-hero text-primary-foreground rounded-full px-5 py-2 text-sm font-bold shadow-glow">
-                    ₹80/meal
-                  </div>
-                </div>
-              </motion.div>
+              <div className="flex flex-col gap-3">
+                <h1 className="text-3xl md:text-4xl xl:text-5xl font-bold tracking-tight leading-[1.2] text-foreground">
+                  The <span className="text-primary font-extrabold uppercase tracking-tighter">Operating System</span> <br />
+                  For Your Daily Meals.
+                </h1>
 
-              {/* Floating badges */}
-              <motion.div
-                className="absolute top-14 right-4 glass-card-strong rounded-2xl px-4 py-3 shadow-card"
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              >
-                <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-xl bg-accent/15 flex items-center justify-center">
-                    <Star className="h-4 w-4 text-accent" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-foreground">4.9 Rating</p>
-                    <p className="text-[10px] text-muted-foreground">2k+ reviews</p>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="absolute bottom-16 left-0 glass-card-strong rounded-2xl px-4 py-3 shadow-card"
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-              >
-                <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <Clock className="h-4 w-4 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-foreground">12:30 PM</p>
-                    <p className="text-[10px] text-muted-foreground">Next delivery</p>
-                  </div>
-                </div>
-              </motion.div>
+                <p className="max-w-2xl text-sm md:text-base text-muted-foreground/60 font-medium leading-relaxed">
+                  Precision logistics meets artisanal cooking. Experience the first enterprise-grade 
+                  tiffin ecosystem designed for the modern professional. Join 2,500+ verified members.
+                </p>
+              </div>
             </div>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <Button size="xl" className="bg-primary text-white rounded-xl px-10 h-14 font-bold shadow-2xl shadow-primary/20 border-none transition-none" asChild>
+                <Link to="/register" className="flex items-center gap-3">
+                  <span>Initialize Account</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </Button>
+
+              <Button size="xl" variant="outline" className="rounded-xl font-bold border-white/10 bg-white/5 transition-none px-8 h-14 text-foreground" asChild>
+                <a href="#how-it-works">Systems Protocol</a>
+              </Button>
+            </div>
+
+            {/* Quick Stats Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 pt-8 border-t border-white/5 max-w-2xl">
+              <div className="flex flex-col gap-1">
+                <div className="text-2xl font-black text-foreground tracking-tighter flex items-center gap-1.5">
+                  <NumberTicker value={2500} />
+                  <span className="text-primary text-lg">+</span>
+                </div>
+                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground/40">Active Nodes</p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <div className="text-2xl font-black text-foreground tracking-tighter flex items-center gap-1.5">
+                  <NumberTicker value={150} />
+                  <span className="text-primary text-lg">+</span>
+                </div>
+                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground/40">Verified Units</p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <div className="text-2xl font-black text-foreground tracking-tighter flex items-center gap-1.5">
+                  <NumberTicker value={99} />
+                  <span className="text-primary text-lg">%</span>
+                </div>
+                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground/40">Uptime Score</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right Content: Dashboard Visualization */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="lg:col-span-5 relative"
+          >
+            <div className="premium-card-glass border-border/40 bg-card/60 shadow-xl p-0 overflow-hidden min-h-[440px] flex flex-col">
+              {/* Dashboard Header Bar */}
+              <div className="h-12 border-b border-border/40 bg-muted/10 flex items-center justify-between px-6">
+                <div className="flex gap-1.5">
+                  <div className="w-2 h-2 rounded-full bg-red-500/20" />
+                  <div className="w-2 h-2 rounded-full bg-amber-500/20" />
+                  <div className="w-2 h-2 rounded-full bg-emerald-500/20" />
+                </div>
+                <div className="text-[8px] font-black uppercase tracking-[0.3em] text-muted-foreground/30">Terminal Version 2.0</div>
+              </div>
+
+              {/* Terminal Content */}
+              <div className="p-6 space-y-6 flex-1">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-base font-bold text-foreground">Operational Status</h3>
+                    <div className="flex items-center gap-2 px-2.5 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
+                      <div className="w-1 h-1 rounded-full bg-emerald-500 animate-pulse" />
+                      <span className="text-[8px] font-black uppercase tracking-widest text-emerald-500">Active</span>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="p-4 rounded-xl bg-muted/20 border border-border/40">
+                      <Users className="w-3.5 h-3.5 text-primary mb-2" />
+                      <p className="text-[8px] font-black uppercase tracking-widest text-muted-foreground/30 mb-1">New Users</p>
+                      <p className="text-lg font-bold text-foreground">+124</p>
+                    </div>
+                    <div className="p-4 rounded-xl bg-muted/20 border border-border/40">
+                      <ChefHat className="w-3.5 h-3.5 text-emerald-500 mb-2" />
+                      <p className="text-[8px] font-black uppercase tracking-widest text-muted-foreground/30 mb-1">Live Kitchens</p>
+                      <p className="text-lg font-bold text-foreground">84</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                   <h3 className="text-base font-bold text-foreground tracking-tight">Recent Activity</h3>
+                   <div className="space-y-2">
+                      {[
+                        { title: "Order #8429", desc: "Out for delivery", time: "2m ago" },
+                        { title: "Chef Verified", desc: "Premium Unit #12", time: "15m ago" },
+                        { title: "Plan Secured", desc: "User 'Alpha' joined", time: "44m ago" }
+                      ].map((item, i) => (
+                        <div key={i} className="flex items-center justify-between p-3.5 rounded-lg bg-muted/20 border border-border/20">
+                          <div className="flex items-center gap-3">
+                            <div className="w-7 h-7 rounded-md bg-primary/10 flex items-center justify-center text-primary text-[9px] font-black">
+                              {item.title.split('#')[1]?.[0] || 'V'}
+                            </div>
+                            <div>
+                              <p className="text-[11px] font-bold text-foreground">{item.title}</p>
+                              <p className="text-[9px] text-muted-foreground/50">{item.desc}</p>
+                            </div>
+                          </div>
+                          <span className="text-[8px] font-black text-muted-foreground/20 uppercase">{item.time}</span>
+                        </div>
+                      ))}
+                   </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Float Decoration */}
+            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-primary/10 rounded-full blur-[60px] -z-10" />
           </motion.div>
         </div>
       </div>
     </section>
   );
 }
+

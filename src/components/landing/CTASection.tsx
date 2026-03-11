@@ -1,92 +1,71 @@
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button-premium";
 import { Link } from "react-router-dom";
-import { ArrowRight, ChefHat, Heart } from "lucide-react";
+import { ArrowRight, ChefHat, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function CTASection() {
   return (
-    <section id="contact" className="py-28">
-      <div className="container mx-auto px-4">
-        {/* Vendor CTA */}
+    <section className="py-12 md:py-20 relative overflow-hidden bg-transparent">
+      <div className="bg-mesh opacity-10" />
+
+      <div className="container mx-auto px-10 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="glass-card rounded-3xl p-10 md:p-14 text-center mb-12 hover-lift"
+           initial={{ opacity: 0, y: 15 }}
+           whileInView={{ opacity: 1, y: 0 }}
+           viewport={{ once: true }}
+           transition={{ duration: 0.8 }}
         >
-          <div className="w-18 h-18 mx-auto rounded-3xl bg-accent/12 flex items-center justify-center mb-7 w-[72px] h-[72px]">
-            <ChefHat className="h-9 w-9 text-accent" />
-          </div>
-          <h3 className="font-heading text-2xl md:text-3xl font-extrabold text-foreground">
-            Are You a Tiffin Provider?
-          </h3>
-          <p className="text-muted-foreground mt-4 max-w-lg mx-auto leading-relaxed">
-            Join our network of trusted home chefs. Reach thousands of hungry customers and grow your business.
-          </p>
-          <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="mt-8 inline-block">
-            <Button variant="outline" size="lg" className="rounded-2xl border-accent/30 text-foreground hover:bg-accent/10 h-12 px-8" asChild>
-              <Link to="/register">Become a Provider <ArrowRight className="ml-2 h-4 w-4" /></Link>
-            </Button>
-          </motion.div>
-        </motion.div>
+          {/* Main Card - Operational Architecture Look */}
+          <div className="premium-card p-8 md:p-10 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
-        {/* Main CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="relative rounded-3xl gradient-hero p-12 md:p-20 text-center overflow-hidden grain"
-        >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,hsl(172_66%_50%/0.4),transparent_60%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,hsl(0_0%_100%/0.06),transparent_50%)]" />
+            <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-12">
+              <div className="flex-1 space-y-6 text-center lg:text-left">
+                <div className="badge-premium border-emerald-500/20 bg-emerald-500/5 mx-auto lg:mx-0">
+                  <span>Economic Prosperity Network</span>
+                </div>
 
-          <div className="relative z-10">
-            <motion.div
-              initial={{ scale: 0 }}
-              whileInView={{ scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
-              className="w-16 h-16 mx-auto rounded-full bg-primary-foreground/10 flex items-center justify-center mb-8"
-            >
-              <Heart className="h-8 w-8 text-primary-foreground" />
-            </motion.div>
+                <div className="space-y-4">
+                  <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-tight text-foreground">
+                    Scale Your <span className="text-primary font-extrabold uppercase tracking-tight">Kitchen</span> <br />
+                    At Enterprise Velocity.
+                  </h2>
 
-            <motion.h2
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="font-heading text-3xl md:text-5xl font-extrabold text-primary-foreground leading-tight"
-            >
-              Ready for Home-Style Meals?
-            </motion.h2>
-            <p className="text-primary-foreground/80 mt-5 max-w-lg mx-auto text-lg leading-relaxed">
-              Join thousands of happy customers who enjoy fresh, affordable tiffin delivered to their doorstep every day.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4 mt-10">
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <p className="max-w-xl text-base text-muted-foreground/60 font-medium leading-relaxed mx-auto lg:mx-0">
+                    Join an elite network of culinary artisans. Leverage our high-performance 
+                    logistics and premium member base to transform your operation.
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-10 pt-4">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-3xl font-bold text-foreground tracking-tighter">150+</span>
+                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-primary">Certified Hubs</span>
+                  </div>
+                   <div className="flex flex-col gap-1">
+                    <span className="text-3xl font-bold text-foreground tracking-tighter">₹2.5M</span>
+                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-primary">Monthly Settlements</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="lg:flex-shrink-0 flex flex-col gap-4 items-center">
                 <Button
-                  variant="accent"
-                  size="lg"
-                  className="rounded-2xl shadow-glow-accent text-base px-8 h-13 font-bold"
+                  className="bg-primary text-white rounded-xl h-16 px-12 font-bold shadow-2xl shadow-primary/20 border-none min-w-[280px] transition-none"
                   asChild
                 >
-                  <Link to="/register">
-                    Start Free Trial <ArrowRight className="ml-2 h-4 w-4" />
+                  <Link to="/register?type=vendor" className="flex items-center justify-between w-full">
+                    <span className="text-lg">Apply as Partner</span>
+                    <ArrowRight className="w-5 h-5 ml-4" />
                   </Link>
                 </Button>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="rounded-2xl border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground text-base px-8 h-13"
-                  asChild
-                >
-                  <Link to="/login">I'm a Vendor</Link>
-                </Button>
-              </motion.div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/30">
+                    Onboarding response speed: &lt; 24h
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </motion.div>

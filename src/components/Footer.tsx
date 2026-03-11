@@ -1,79 +1,151 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { Github, Twitter, Instagram, Mail, Zap } from "lucide-react";
+import { Mail, MapPin, Twitter, Instagram, Github, Linkedin, ArrowUp } from "lucide-react";
 
 const socials = [
   { icon: Twitter, href: "#", label: "Twitter" },
   { icon: Instagram, href: "#", label: "Instagram" },
   { icon: Github, href: "#", label: "Github" },
-  { icon: Mail, href: "#", label: "Email" },
+  { icon: Linkedin, href: "#", label: "LinkedIn" },
 ];
 
-export default function Footer() {
-  return (
-    <footer className="bg-secondary text-secondary-foreground pt-20 pb-10 relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,hsl(158_64%_52%/0.05),transparent_60%)]" />
+const links = {
+  product: [
+    { label: "Methodology", href: "/#how-it-works" },
+    { label: "Valuation", href: "/#pricing" },
+    { label: "Ecosystem", href: "/#features" },
+    { label: "Member Portal", href: "/login" },
+  ],
+  vendors: [
+    { label: "Become a Partner", href: "/register?type=vendor" },
+    { label: "Vendor Relations", href: "/#contact" },
+    { label: "Kitchen Audits", href: "/#features" },
+    { label: "Growth Capital", href: "/#pricing" },
+  ],
+  legal: [
+    { label: "Data Privacy", href: "/#contact" },
+    { label: "Master Terms", href: "/#contact" },
+    { label: "Refund Policy", href: "/#pricing" },
+    { label: "Contact Us", href: "/#contact" },
+  ],
+};
 
-      <div className="container mx-auto px-4 relative">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
-          <div>
-            <div className="flex items-center gap-2.5 mb-6">
-              <div className="w-9 h-9 rounded-xl gradient-hero flex items-center justify-center">
-                <Zap className="h-4 w-4 text-primary-foreground" />
+export default function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const scrollToSection = (href: string) => {
+    if (href.startsWith("/#")) {
+      const id = href.split("#")[1];
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
+  return (
+    <footer className="relative overflow-hidden bg-transparent border-t border-border">
+      <div className="bg-mesh opacity-10" />
+
+      <div className="container mx-auto px-6 py-16 md:py-20">
+        {/* Top Section */}
+        <div className="grid lg:grid-cols-5 gap-12 mb-16">
+          {/* Brand Column */}
+          <div className="lg:col-span-2 space-y-6">
+            <Link 
+              to="/" 
+              className="flex items-center gap-2.5 group"
+              onClick={() => scrollToSection("/#hero")}
+            >
+              <div className="relative w-9 h-9 flex items-center justify-center">
+                <div className="absolute inset-0 bg-primary opacity-20 rounded-lg" />
+                <span className="relative text-lg">🍱</span>
               </div>
-              <span className="font-heading font-bold text-lg tracking-tight">
-                Tiffin<span className="text-primary">Connect</span>
-              </span>
-            </div>
-            <p className="text-sm text-secondary-foreground/40 leading-relaxed">
-              Connecting you with the best local home chefs for daily tiffin delivery.
+              <div className="flex flex-col">
+                <span className="font-bold text-lg leading-none tracking-tight text-foreground">
+                  Tiffin<span className="text-primary tracking-tighter">Connect</span>
+                </span>
+                <span className="text-[8px] font-black uppercase tracking-[0.2em] text-muted-foreground/40 mt-1">
+                  Premium Dining
+                </span>
+              </div>
+            </Link>
+
+            <p className="max-w-xs text-xs md:text-sm font-medium text-muted-foreground/60 leading-relaxed">
+              Redefining the daily meal ritual through artisanal cooking,
+              surgical logistics, and uncompromising quality standards.
             </p>
-            <div className="flex gap-3 mt-7">
-              {socials.map((s) => (
-                <motion.a
-                  key={s.label}
-                  href={s.href}
-                  whileHover={{ y: -2, scale: 1.1 }}
-                  className="w-10 h-10 rounded-xl bg-secondary-foreground/5 flex items-center justify-center text-secondary-foreground/30 hover:text-primary hover:bg-primary/10 transition-all"
-                  aria-label={s.label}
+
+            {/* Social Links */}
+            <div className="flex gap-3">
+              {socials.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  className="w-8 h-8 rounded-lg bg-muted/20 flex items-center justify-center text-muted-foreground/40 transition-none border border-border"
+                  aria-label={social.label}
                 >
-                  <s.icon className="h-4 w-4" />
-                </motion.a>
+                  <social.icon className="h-3.5 w-3.5" />
+                </a>
               ))}
             </div>
           </div>
 
-          <div>
-            <h4 className="font-heading font-bold mb-6 text-secondary-foreground/70 text-sm uppercase tracking-wider">Quick Links</h4>
-            <ul className="space-y-3.5 text-sm text-secondary-foreground/40">
-              <li><a href="#how-it-works" className="hover:text-primary transition-colors">How It Works</a></li>
-              <li><a href="#pricing" className="hover:text-primary transition-colors">Pricing</a></li>
-              <li><a href="#about" className="hover:text-primary transition-colors">Features</a></li>
-              <li><a href="#contact" className="hover:text-primary transition-colors">Contact</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-heading font-bold mb-6 text-secondary-foreground/70 text-sm uppercase tracking-wider">For Vendors</h4>
-            <ul className="space-y-3.5 text-sm text-secondary-foreground/40">
-              <li><Link to="/register" className="hover:text-primary transition-colors">Become a Chef</Link></li>
-              <li><Link to="/login" className="hover:text-primary transition-colors">Vendor Login</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-heading font-bold mb-6 text-secondary-foreground/70 text-sm uppercase tracking-wider">Support</h4>
-            <ul className="space-y-3.5 text-sm text-secondary-foreground/40">
-              <li><a href="#" className="hover:text-primary transition-colors">Help Center</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Terms of Service</a></li>
-            </ul>
-          </div>
+          {/* Links Columns */}
+          {[
+            { title: "Navigation", items: links.product },
+            { title: "Partnerships", items: links.vendors },
+            { title: "Legal & Support", items: links.legal },
+          ].map((column) => (
+            <div key={column.title} className="space-y-6">
+              <h4 className="text-[9px] font-black uppercase tracking-[0.2em] text-foreground">
+                {column.title}
+              </h4>
+              <ul className="space-y-3">
+                {column.items.map((item) => (
+                  <li key={item.label}>
+                    <Link
+                      to={item.href}
+                      onClick={() => scrollToSection(item.href)}
+                      className="text-xs font-medium text-muted-foreground/50 transition-none"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        <div className="border-t border-secondary-foreground/8 mt-14 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-secondary-foreground/25">
-          <span>© {new Date().getFullYear()} TiffinConnect™. All rights reserved.</span>
-          <span>Made with 🧡 in India</span>
+        {/* Divider */}
+        <div className="relative py-8">
+          <div className="h-px bg-border w-full" />
+          <button
+            onClick={scrollToTop}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-card border border-border shadow-xl flex items-center justify-center text-muted-foreground transition-none"
+          >
+            <ArrowUp className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        {/* Bottom Section */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 pt-6 opacity-40">
+          <p className="text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground/50">
+            © {new Date().getFullYear()} TiffinConnect Global. All rights reserved.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-6">
+            <a href="mailto:concierge@tiffinconnect.com" className="text-[9px] font-black uppercase tracking-[0.15em] flex items-center gap-2">
+              <Mail className="h-3.5 w-3.5" />
+              <span>concierge@tiffinconnect.com</span>
+            </a>
+            <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.15em]">
+              <MapPin className="h-3.5 w-3.5" />
+              <span>Designed in Bangalore • Serviced Globally</span>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

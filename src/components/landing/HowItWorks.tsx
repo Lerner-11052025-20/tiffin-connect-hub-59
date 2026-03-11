@@ -1,89 +1,108 @@
+import { UserPlus, Utensils, CreditCard, Truck, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
-import { UserPlus, UtensilsCrossed, CreditCard, Truck } from "lucide-react";
 
 const steps = [
   {
     icon: UserPlus,
-    title: "Sign Up",
-    description: "Create your free account in seconds with email or phone.",
-    color: "from-primary to-primary",
+    title: "Create Profile",
+    description: "Join our exclusive network of food enthusiasts. Secure, verified, and personalized to your tastes.",
+    number: "01",
   },
   {
-    icon: UtensilsCrossed,
-    title: "Customize Menu",
-    description: "Pick your meals — roti, rice, dal, sabji, salad and add-ons.",
-    color: "from-accent to-accent",
+    icon: Utensils,
+    title: "Curate Menu",
+    description: "Hand-pick your daily ingredients. From grains to proteins, you are the master of your plate.",
+    number: "02",
   },
   {
     icon: CreditCard,
-    title: "Choose Plan & Pay",
-    description: "Select daily, weekly, or monthly plan. Pay securely online.",
-    color: "from-info to-info",
+    title: "Reserve Plan",
+    description: "Select from flexible daily or monthly memberships with zero long-term commitment.",
+    number: "03",
   },
   {
     icon: Truck,
-    title: "Get Delivered",
-    description: "Track your tiffin in real-time. Enjoy fresh, home-style food!",
-    color: "from-success to-success",
+    title: "Timed Arrival",
+    description: "Experience the elegance of surgical punctuality. Freshly cooked, delivered exactly as promised.",
+    number: "04",
   },
 ];
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-28 relative overflow-hidden">
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] rounded-full bg-primary/[0.03] blur-[120px]" />
-      </div>
+    <section id="how-it-works" className="py-12 md:py-20 relative overflow-hidden bg-transparent">
+      <div className="bg-mesh opacity-20" />
 
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-20"
-        >
-          <span className="inline-flex items-center gap-2 text-xs font-bold text-primary uppercase tracking-[0.2em] glass-card rounded-full px-5 py-2.5 shadow-soft">
-            ✨ Simple Process
-          </span>
-          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground mt-7">
-            How TiffinConnect Works
-          </h2>
-          <p className="text-muted-foreground mt-4 max-w-md mx-auto text-base">
-            Four easy steps to start enjoying daily home-cooked meals.
-          </p>
-        </motion.div>
+      <div className="container mx-auto px-6 relative z-10">
+        {/* Section Header */}
+        <div className="flex flex-col gap-5 mb-10">
+          <div className="badge-premium border-primary/20 bg-primary/5 w-fit">
+            <span>The Methodology</span>
+          </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 relative">
-          {/* Connection line */}
-          <div className="absolute top-12 left-[12%] right-[12%] h-px bg-gradient-to-r from-transparent via-primary/15 to-transparent hidden lg:block" />
+          <div className="grid lg:grid-cols-2 gap-8 items-end">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-[1.2] text-foreground max-w-xl">
+              Elevating the <span className="text-primary font-extrabold uppercase tracking-tight">Daily Ritual</span>
+              <br /> of Dining.
+            </h2>
+            <p className="max-w-md text-sm md:text-base text-muted-foreground/60 font-medium pb-1">
+              A seamless integration of local culinary mastery and modern logistics,
+              refined for those who value time and health.
+            </p>
+          </div>
+        </div>
 
-          {steps.map((step, i) => (
+        {/* Steps Grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {steps.map((step, idx) => (
             <motion.div
               key={step.title}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.12, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="relative text-center group"
+              transition={{ delay: idx * 0.1, duration: 0.6, ease: "easeOut" }}
+              className="relative"
             >
-              <motion.div
-                whileHover={{ scale: 1.08, rotate: 5 }}
-                transition={{ type: "spring", stiffness: 300 }}
-                className="w-24 h-24 mx-auto rounded-3xl gradient-hero flex items-center justify-center shadow-glow mb-7 relative"
-              >
-                <step.icon className="h-10 w-10 text-primary-foreground" />
-                <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-card shadow-card flex items-center justify-center text-xs font-bold text-primary border-2 border-primary/20">
-                  {i + 1}
+              {/* Card */}
+              <div className="premium-card h-full flex flex-col gap-6 p-10 shadow-2xl relative group">
+                {/* Large Background Number */}
+                <div className="step-number-bg">
+                   {step.number}
                 </div>
-              </motion.div>
 
-              <h3 className="font-heading font-bold text-lg text-foreground">
-                {step.title}
-              </h3>
-              <p className="text-sm text-muted-foreground mt-2 max-w-[220px] mx-auto leading-relaxed">{step.description}</p>
+                {/* Icon Container */}
+                <div className="icon-box-premium relative z-10 transition-transform duration-500 group-hover:scale-110">
+                  <step.icon className="h-7 w-7 stroke-[2.5]" />
+                </div>
+
+                {/* Content */}
+                <div className="flex flex-col gap-5 relative z-10 mt-4">
+                  <h3 className="text-2xl font-bold tracking-tight text-foreground leading-tight">
+                    {step.title}
+                  </h3>
+                  <p className="text-base font-medium text-muted-foreground/60 leading-relaxed max-w-[90%]">
+                    {step.description}
+                  </p>
+                </div>
+              </div>
             </motion.div>
           ))}
+        </div>
+
+        {/* Bottom Context */}
+        <div className="mt-16 pt-6 border-t border-white/5 flex flex-wrap justify-between items-center gap-6 opacity-40">
+          <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em]">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <span>Mobile Verified Checkout</span>
+          </div>
+          <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em]">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <span>Encrypted Data Privacy</span>
+          </div>
+          <div className="flex items-center gap-2 text-[9px] font-black uppercase tracking-[0.2em]">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+            <span>Priority Support Access</span>
+          </div>
         </div>
       </div>
     </section>

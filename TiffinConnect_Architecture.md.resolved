@@ -1,0 +1,298 @@
+# 🍱 TiffinConnect — Full Application Overview
+
+## 1. What is TiffinConnect?
+
+TiffinConnect is a **full-stack SaaS meal-delivery subscription platform** built for the Indian market. It connects:
+- **Customers** who want daily home-cooked tiffin deliveries (lunch/dinner)
+- **Vendors (Tiffin Providers)** who cook and list meals
+- **Admins** who manage the platform, approve vendors, and monitor orders
+
+---
+
+## 2. Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Framework** | React 18 + Vite (TypeScript) |
+| **Routing** | React Router DOM v6 |
+| **UI Components** | Radix UI + shadcn/ui |
+| **Styling** | Tailwind CSS v3 + custom CSS animations |
+| **Animations** | Framer Motion |
+| **Backend / DB** | Supabase (PostgreSQL + RLS + Auth) |
+| **State Management** | TanStack React Query v5 |
+| **Forms** | React Hook Form + Zod |
+| **Payments** | Razorpay (integrated) |
+| **Toast Notifications** | Sonner + Radix Toast |
+| **Icons** | Lucide React |
+| **Charts** | Recharts |
+| **Date Utilities** | date-fns |
+
+---
+
+## 3. Project Root Structure
+
+```
+tiffin-connect-hub-59/
+├── src/
+│   ├── App.tsx              ← Root router & providers
+│   ├── main.tsx             ← React entry point
+│   ├── index.css            ← Global CSS + design tokens
+│   ├── components/          ← Shared layout & UI components
+│   ├── pages/               ← All page components
+│   ├── hooks/               ← Custom hooks (auth, toast, mobile)
+│   ├── integrations/        ← Supabase client
+│   └── lib/                 ← Utility functions
+├── supabase/
+│   ├── config.toml
+│   └── migrations/          ← SQL schema files
+├── .env                     ← Supabase credentials
+├── tailwind.config.ts
+└── package.json
+```
+
+---
+
+## 4. Authentication & Role System
+
+### Auth Provider ([src/hooks/useAuth.tsx](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/hooks/useAuth.tsx))
+- Uses **Supabase Auth** (`signInWithPassword`, `signUp`, `onAuthStateChange`)
+- Maintains global state: `user`, `session`, `role`, `loading`
+- On login, fetches the user's `app_role` from the `user_roles` table
+- Roles: `"user"` | `"vendor"` | `"admin"`
+
+### Protected Route ([src/components/ProtectedRoute.tsx](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/components/ProtectedRoute.tsx))
+- Wraps dashboard routes
+- If not logged in → redirects to `/login`
+- If wrong role → redirects to correct dashboard
+- While loading → shows animated loading screen
+
+### Role-Based Dashboard Routing
+| Role | Dashboard URL |
+|---|---|
+| `user` | `/dashboard/*` → [UserDashboard](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/UserDashboard.tsx#28-53) |
+| `vendor` | `/vendor/*` → [VendorDashboard](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/VendorDashboard.tsx#25-50) |
+| `admin` | `/admin/*` → [AdminDashboard](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/AdminDashboard.tsx#25-50) |
+
+---
+
+## 5. Application Routes
+
+### Public Routes
+| Path | Component | Description |
+|---|---|---|
+| `/` | [Index](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/Index.tsx#9-22) | Landing page |
+| `/login` | [Login](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/Login.tsx#11-145) | Sign-in page |
+| `/register` | [Register](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/Register.tsx#17-168) | Sign-up with role selection |
+| `*` | `NotFound` | 404 page |
+
+### User Dashboard Routes (`/dashboard/*`)
+| Sub-path | Component |
+|---|---|
+| `/` (index) | [DashboardHome](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/dashboard/DashboardHome.tsx#18-219) |
+| `meals` | `BrowseMealsPage` |
+| `subscription` | [SubscriptionPage](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/dashboard/SubscriptionPage.tsx#11-174) |
+| `track` | `TrackOrderPage` |
+| `history` | `OrderHistoryPage` |
+| `profile` | [ProfilePage](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/dashboard/ProfilePage.tsx#13-210) |
+
+### Vendor Dashboard Routes (`/vendor/*`)
+| Sub-path | Component |
+|---|---|
+| `/` (index) | [VendorHome](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/vendor/VendorHome.tsx#18-209) |
+| `menu` | [MenuManagementPage](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/vendor/MenuManagementPage.tsx#28-277) |
+| `orders` | `IncomingOrdersPage` |
+| `earnings` | `EarningsPage` |
+| `profile` | `BusinessProfilePage` |
+
+### Admin Dashboard Routes (`/admin/*`)
+| Sub-path | Component |
+|---|---|
+| `/` (index) | [AdminHome](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/admin/AdminHome.tsx#15-132) |
+| `users` | `UsersPage` |
+| `vendors` | `VendorsPage` |
+| `orders` | `OrdersPage` |
+| `analytics` | `AnalyticsPage` |
+
+---
+
+## 6. Landing Page (`/`)
+
+Composed of five sections in `src/components/landing/`:
+
+| Component | Purpose |
+|---|---|
+| [HeroSection](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/components/landing/HeroSection.tsx#15-221) | Animated hero with floating food emojis, stats bar, CTA buttons |
+| `HowItWorks` | Step-by-step guide (Browse → Subscribe → Enjoy) |
+| `FeaturesSection` | Feature grid highlighting platform benefits |
+| [PricingSection](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/components/landing/PricingSection.tsx#36-135) | 3 plans: Daily (₹80/meal), Weekly (₹499), Monthly (₹1,799) |
+| `CTASection` | Final signup call-to-action |
+
+Also includes [Navbar](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/components/Navbar.tsx#17-143) (sticky, scroll-aware with glassmorphism) and `Footer`.
+
+---
+
+## 7. Shared Layout
+
+### [DashboardLayout](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/components/DashboardLayout.tsx#98-115)
+- Wraps all dashboard pages (user / vendor / admin)
+- Contains collapsible [Sidebar](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/components/DashboardLayout.tsx#29-97) (shadcn/ui) with nav items and logout button
+- Sticky top header with page title and `SidebarTrigger`
+- Uses `ThemeToggle` for dark/light mode
+
+### [Navbar](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/components/Navbar.tsx#17-143)
+- Sticky top bar on the landing page
+- Shows "My Dashboard" button when logged in (role-aware link)
+- Responsive mobile menu with AnimatePresence animation
+
+---
+
+## 8. User Dashboard Pages
+
+### [DashboardHome](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/dashboard/DashboardHome.tsx#18-219)
+- Greeting card with user's name
+- **4 stat cards**: Active Plan, Meal Type, Recent Orders count, Total Spent
+- **Active Subscription** panel (vendor name, plan, meal type, dates, amount)
+- **Recent Orders** list (last 5 orders, status badges)
+- All data fetched from Supabase with React Query
+
+### `BrowseMealsPage`
+- Lists available menus from approved vendors
+- Users can subscribe to a meal plan
+
+### [SubscriptionPage](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/dashboard/SubscriptionPage.tsx#11-174)
+- Lists all subscriptions for the logged-in user
+- Actions: **Pause**, **Resume**, **Cancel** subscriptions
+- Uses `useMutation` to update subscription status
+
+### `TrackOrderPage`
+- Shows real-time order status (pending → preparing → out_for_delivery → delivered)
+
+### `OrderHistoryPage`
+- Full history of past orders with status and amount
+
+### [ProfilePage](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/dashboard/ProfilePage.tsx#13-210)
+- Edit full name and phone number
+- Add / delete delivery **addresses** (label, address line, city, state, pincode)
+
+---
+
+## 9. Vendor Dashboard Pages
+
+### [VendorHome](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/vendor/VendorHome.tsx#18-209)
+- Greeting with business name and approval status
+- **4 stat cards**: Today's Orders, Pending count, Earnings today, Active Subscribers
+- **Active Subscriptions** list (customer name, phone, plan, dates)
+- **Recent Orders** list with status badges
+
+### [MenuManagementPage](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/vendor/MenuManagementPage.tsx#28-277)
+- CRUD for menu items
+- Fields: name, price (₹), meal type (lunch/dinner/both), items list (JSONB), availability toggle
+- Animated form with badge-style food items
+
+### `IncomingOrdersPage`
+- View and update status of incoming orders
+- Order status flow: pending → confirmed → preparing → out_for_delivery → delivered
+
+### `EarningsPage`
+- Revenue summary and charts for the vendor
+
+### `BusinessProfilePage`
+- Set up/edit vendor: business name, description, phone, address, delivery radius
+
+---
+
+## 10. Admin Dashboard Pages
+
+### [AdminHome](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/admin/AdminHome.tsx#15-132)
+- Platform-wide stats: Total Users, Active Vendors, Orders Today, Total Revenue
+- Pending vendor approval alert with link
+- Recent Orders table
+
+### `UsersPage`
+- List and manage all registered users
+
+### `VendorsPage`
+- List all vendors with approve/deactivate controls
+
+### `OrdersPage`
+- Platform-wide orders management
+
+### `AnalyticsPage`
+- Charts and metrics for platform growth (using Recharts)
+
+---
+
+## 11. Database Schema (Supabase / PostgreSQL)
+
+### Tables
+
+| Table | Key Columns | Purpose |
+|---|---|---|
+| `profiles` | `user_id`, `full_name`, `phone`, `avatar_url` | User profile data |
+| `user_roles` | `user_id`, `role (enum)` | Role assignment (user/vendor/admin) |
+| `addresses` | `user_id`, `label`, `address_line`, `city`, `state`, `pincode`, `lat/lng`, `is_default` | Delivery addresses |
+| `vendors` | `user_id`, `business_name`, `description`, `delivery_radius_km`, `is_approved`, `is_active` | Vendor profiles |
+| `menus` | `vendor_id`, `name`, `meal_type`, `price`, `items (JSONB)`, `is_available` | Meal menus |
+| `subscriptions` | `user_id`, `vendor_id`, `menu_id`, `plan_type`, `meal_type`, [status](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/dashboard/SubscriptionPage.tsx#45-53), `start_date`, `end_date`, `amount` | User subscriptions |
+| `orders` | `user_id`, `vendor_id`, `subscription_id`, `meal_type`, `delivery_date`, [status](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/dashboard/SubscriptionPage.tsx#45-53), `amount` | Individual delivery orders |
+| `payments` | `user_id`, `order_id`, `subscription_id`, `razorpay_*`, `amount`, [status](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/dashboard/SubscriptionPage.tsx#45-53) | Payment records (Razorpay) |
+
+### Row Level Security (RLS)
+- All tables have RLS enabled
+- Users only see/edit their own data
+- Vendors see subscriptions and orders for their business
+- Admins have full access via `has_role()` security definer function
+- Auto-trigger `handle_new_user()` creates profile + role on signup
+
+### Enums & Constraints
+- `app_role`: `user | vendor | admin`
+- `plan_type`: `daily | weekly | monthly`
+- `meal_type`: `lunch | dinner | both`
+- `order status`: `pending | confirmed | preparing | out_for_delivery | delivered | cancelled`
+- `subscription status`: `active | paused | cancelled | expired`
+- `payment status`: `created | authorized | captured | failed | refunded`
+
+---
+
+## 12. Integrations
+
+### Supabase (`src/integrations/supabase/client.ts`)
+- Client initialized with `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY`
+- Used across all pages for DB queries, auth, and real-time
+
+### Razorpay
+- Payment flow integrated (Razorpay script loaded externally)
+- Payment IDs stored in the `payments` table (`razorpay_order_id`, `razorpay_payment_id`, `razorpay_signature`)
+- Webhook integration for purchase confirmation emails
+
+---
+
+## 13. Key Design Patterns
+
+- **TanStack React Query** for all server state (caching, refetching, mutations)
+- **Optimistic UI** via `queryClient.invalidateQueries` on mutations
+- **Framer Motion** for smooth staggered animations and hover/tap interactions
+- **Glassmorphism** design system (custom CSS classes: `glass`, `glass-card`, `glass-subtle`)
+- **Sonner toasts** for all success/error feedback
+- **Responsive layouts** — all pages are mobile-friendly
+- **Dark/Light mode** — `ThemeToggle` in both Navbar and sidebar
+
+---
+
+## 14. Pricing Plans (Landing Page)
+
+| Plan | Price | Features |
+|---|---|---|
+| Daily | ₹80/meal | Single meal, pay per order |
+| Weekly ⭐ | ₹499/week | Lunch + Dinner, priority delivery, 10% savings |
+| Monthly | ₹1,799/month | Full plan, 25%, pause anytime, dedicated chef |
+
+---
+
+## 15. Environment Configuration
+
+```env
+VITE_SUPABASE_PROJECT_ID=rcnyoemqktqoxsgikfes
+VITE_SUPABASE_PUBLISHABLE_KEY=eyJ...
+VITE_SUPABASE_URL=https://rcnyoemqktqoxsgikfes.supabase.co
+```

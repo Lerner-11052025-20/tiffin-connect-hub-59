@@ -1,0 +1,87 @@
+# TiffinConnect V3.0 Design System: Vendor Panel Style Guide
+
+This document captures the styling specifications for the TiffinConnect Vendor (Tiffin Provider) Panel. Following the V3.0 redesign, the vendor panel has been normalized for maximum readability and a premium operational feel, aligning with the core design principles of the Admin Panel.
+
+---
+
+## 1. Typography & Normalization (The "Readable" Standard)
+
+We have moved away from overly technical and aesthetic stylings to prioritize functional clarity.
+
+### 1.1 Font Hierarchy
+- **Body Text**: `Inter` (Sans-serif) - used for all descriptions, list items, and form values.
+- **Headings**: `Plus Jakarta Sans` or `Inter` (Bold) - used for primary section titles.
+- **Normalization Rules**:
+  - **Removed `font-black`**: Replaced with `font-bold` (700) or `font-semibold` (600).
+  - **Case Standard**: Sentence Case or Title Case is preferred over All-Caps for better legibility.
+  - **Label Sizes**: Standardized labels to `text-xs` or `text-sm` with `font-semibold`.
+
+### 1.2 Terminology Transformation
+We use standard business terms instead of "aesthetic" technical jargon:
+- **Registry/Node** → **Business/Profile**
+- **Telemetry/Broadcasting** → **Status/Online**
+- **Sentiment Index** → **Customer Reviews**
+- **Capital Velocity** → **Earnings Reports**
+
+---
+
+## 2. Core Components
+
+### 2.1 The Signature Block (`.premium-card`)
+Every major section is wrapped in a high-visibility card:
+- **Border**: `1px solid hsla(var(--primary), 0.5)` (The "Emerald" Green Border).
+- **Radius**: `2.5rem` (Extremely rounded for a modern look).
+- **Background**: `bg-card/30 backdrop-blur-xl`.
+- **Spacing**: `p-10 lg:p-14` for main containers; `p-8` for dashboard cards.
+
+### 2.2 Navigation (Sidebar & Header)
+- **Vendor Identity**: Uses the "👨‍🍳" icon in the sidebar branding.
+- **Group Label**: "Vendor Dashboard" (text-xs, font-bold, tracking-widest).
+- **Nav Items**: Height `h-11`, Rounded `rounded-xl`, Hover `bg-muted/30`.
+- **Active State**: Emerald glow (`bg-primary/10`, `text-primary`, `border-primary/20`).
+
+---
+
+## 3. Page-Specific Styles
+
+### 3.1 Order Management ([IncomingOrdersPage.tsx](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/vendor/IncomingOrdersPage.tsx))
+- **Task Console**: Centered layout using `max-w-4xl` for focus.
+- **Order Cards**: 
+  - Status badges use the V3 standard (Green for Completed, Amber for Pending).
+  - Meal names use `text-xl font-bold tracking-tight`.
+- **Action Buttons**: `h-14`, `rounded-xl`, high contrast for primary actions.
+
+### 3.2 Menu & Resources ([MenuManagementPage.tsx](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/vendor/MenuManagementPage.tsx))
+- **Menu Grid**: Responsive grid (`grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8`).
+- **Item Badges**: `badge-premium` for price and availability status.
+- **Empty State**: Simple center-aligned layout with `w-24 h-24` icons and friendly "Setup Menu" calls to action.
+
+### 3.3 Financial Hub ([EarningsPage.tsx](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/vendor/EarningsPage.tsx))
+- **Stats Row**: 4-column grid showing Today, Week, Month, and Total revenue.
+- **Visualization**: `NumberTicker` component for dynamic "count-up" effects on currency values.
+- **Breakdown List**: Items use `rounded-2xl`, `bg-muted/20`, and `border-primary/20`.
+
+### 3.4 Feedback Stream ([VendorReviewsPage.tsx](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/vendor/VendorReviewsPage.tsx))
+- **Review Cards**: Flex layout (`flex-col lg:flex-row`).
+- **Rating Stars**: Primary color (`fill-primary`) for filled stars, muted for empty.
+- **Quote Block**: Italicized `text-lg` with a subtle `Quote` icon background.
+
+---
+
+## 4. Interaction & Motion
+
+### 4.1 Framer Motion Patterns
+- **Entry Fades**: All pages and cards animate in with `initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}`.
+- **AnimatePresence**: Used for tab switching and empty-state transitions to prevent "jumping" content.
+- **Hover Effects**: Subtly maintained but minimized to ensure high performance and "Always Visible" borders.
+
+### 4.2 Utility Classes
+- **`.scrollbar-hide`**: Applied to the main content area for a clean, app-like feel.
+- **`.badge-premium`**: Standard emerald badge used for titles and highlights.
+
+---
+
+## 5. Styling Philosophy (V3.0)
+> **"Readable, Reliable, Remarkable."**
+> 
+> The Vendor dashboard should feel like a High-Performance tool, not a tech demo. Every border is visible, every button is clickable, and every metric is legible at a glance. Avoid thin weights or low-contrast text. Use the Emerald accent (`--primary`) to guide the vendor's focus to what matters most: Orders and Earnings.

@@ -1,0 +1,74 @@
+# Customer Panel V3.0 Style Guide & Implementation Plan
+
+This document outlines the styling standards and implementation details for the Customer Panel (Version 3.0). The focus is on premium aesthetics, normalized typography, and an intuitive user experience.
+
+## 🎨 Core Design Principles
+1. **Typography Normalization**: Replace all instances of `font-black` with `font-bold` for better readability. Standardize font sizes and tracking.
+2. **Premium Card System**: Use the `.premium-card` class for all main containers. Avoid generic `bg-card` without refinement.
+3. **Professional Labeling**: Replace technical/robotic terms (e.g., "Protocol", "Telemetry", "Nodes") with user-friendly terminology (e.g., "Planner", "Tracking", "Addresses").
+4. **Smooth Transitions**: Implement `framer-motion` for all page entries and state changes to ensure a fluid experience.
+5. **Fast Reload & Performance**: Optimize rendering and minimize layout shifts for a snappy feel.
+
+---
+
+## 🏗️ Implementation Details
+
+### 1. Typography Standards
+- **Headings**: `font-bold tracking-tight text-foreground`
+- **Subheadings**: `font-semibold text-muted-foreground`
+- **Labels (Uppercase)**: `text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60`
+- **Body Text**: `font-medium text-muted-foreground`
+
+### 2. Component Enhancements
+- **Cards**:
+  ```tsx
+  <div className="premium-card p-10 relative overflow-hidden">
+    <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-[80px] -mr-32 -mt-32" />
+    {/* Content */}
+  </div>
+  ```
+- **Badges**: Use `variant="outline"` or `variant="default"` with `font-bold` and rounded-full corners.
+- **Buttons**:
+  - Primary: `bg-primary text-white font-bold h-12 rounded-2xl shadow-lg ring-offset-background transition-all active:scale-95`
+  - Outline: `border-border/60 font-bold h-12 rounded-2xl hover:bg-muted/10`
+
+### 3. Page-Specific Normalization
+
+#### Overview (DashboardHome)
+- **Labels**: "Selected Meal", "Subscription Plan", "Total Spent".
+- **Empty States**: Friendly messages like "No current meal selected. Let's find something delicious!"
+
+#### Meal Planner (WeeklyPlanner)
+- **Labels**: "Planner Control", "Add Meal", "Save Plan".
+- **Feedback**: "Planned! Your meals have been saved."
+
+#### Track Order (TrackOrder)
+- **Labels**: "Order Status", "On Time", "Live Tracking".
+- **Steps**: "Order Placed" → "Cooking" → "On the Way" → "Delivered".
+
+#### Profile (ProfilePage)
+- **Labels**: "Profile Details", "Full Name", "My Addresses", "User ID".
+- **Actions**: "Save Changes", "Add Address", "Sign Out".
+
+---
+
+## 🛠️ Style Checklist
+- [x] Removed all `font-black` and `tracking-tighter`.
+- [x] Replaced robotic terms with human-friendly ones.
+- [x] Applied `premium-card` and `rounded-3xl` consistently.
+- [x] Fixed `logout` to [signOut](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/hooks/useAuth.tsx#62-66) in [useAuth](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/hooks/useAuth.tsx#77-78) hook calls.
+- [x] Ensured `framer-motion` animations are present and smooth.
+- [x] Verified colors follow the HSL-tailored palette.
+
+---
+
+## 📂 Key Files Modified
+- [src/pages/dashboard/DashboardHome.tsx](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/dashboard/DashboardHome.tsx)
+- [src/pages/dashboard/BrowseMealsPage.tsx](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/dashboard/BrowseMealsPage.tsx)
+- [src/pages/dashboard/OrderHistoryPage.tsx](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/dashboard/OrderHistoryPage.tsx)
+- [src/pages/dashboard/SubscriptionPage.tsx](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/dashboard/SubscriptionPage.tsx)
+- [src/pages/dashboard/ProfilePage.tsx](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/dashboard/ProfilePage.tsx)
+- [src/pages/dashboard/WeeklyPlannerPage.tsx](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/dashboard/WeeklyPlannerPage.tsx)
+- [src/pages/dashboard/TrackOrderPage.tsx](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/pages/dashboard/TrackOrderPage.tsx)
+- [src/components/WeeklyPlanner.tsx](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/components/WeeklyPlanner.tsx)
+- [src/components/DashboardLayout.tsx](file:///e:/DELTA/M%20A%20I%20N%20M%20A%20I%20N/FULL%20STACK%20DEPLOYES%20PROJECTS/TiffinConnect/tiffin-connect-hub-59/src/components/DashboardLayout.tsx)

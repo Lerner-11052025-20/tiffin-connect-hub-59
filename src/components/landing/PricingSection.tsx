@@ -1,132 +1,150 @@
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Check, Sparkles, Crown } from "lucide-react";
+import { Button } from "@/components/ui/button-premium";
+import { Check, Crown, Zap, ShieldCheck, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const plans = [
   {
-    name: "Daily",
-    price: "₹80",
+    name: "Standard Pass",
+    price: "80",
     period: "/meal",
-    description: "Order one meal at a time",
-    features: ["Choose lunch or dinner", "Customize your menu", "Map-based delivery", "Pay per order"],
-    popular: false,
-    icon: "🥗",
+    description: "Curated for the infrequent connoisseur who values quality on demand.",
+    features: ["Single Service (Lunch/Dinner)", "Bespoke Customization", "Real-Time Tracking", "Priority Dispatch", "No Retainer Required"],
+    accent: "bg-muted",
+    isPremium: false,
   },
   {
-    name: "Weekly",
-    price: "₹499",
+    name: "Executive Weekly",
+    price: "499",
     period: "/week",
-    description: "7 days of delicious meals",
-    features: ["Lunch + Dinner", "Full menu customization", "Priority delivery", "Save 10%", "Change menu daily"],
-    popular: true,
-    icon: "🍱",
+    description: "The professional's choice for a balanced, health-conscious work week.",
+    features: ["L+D Dual Service", "Full Customization daily", "Priority Logistics", "10% Retainer Savings", "Concierge Scheduling", "Pause Anytime"],
+    accent: "bg-primary",
+    isPremium: true,
+    badge: "Most Refined",
   },
   {
-    name: "Monthly",
-    price: "₹1,799",
+    name: "Elite Monthly",
+    price: "1,799",
     period: "/month",
-    description: "Best value for regulars",
-    features: ["Lunch + Dinner", "Full menu customization", "Priority delivery", "Save 25%", "Pause anytime", "Dedicated chef"],
-    popular: false,
-    icon: "👨‍🍳",
+    description: "Our most exclusive membership for those uncompromising on their lifestyle.",
+    features: ["30-Day L+D Retention", "VIP Concierge Support", "Express Priority Delivery", "25% Maximum Savings", "Nutrition Consultation", "Flexible Menu Freezes"],
+    accent: "bg-muted",
+    isPremium: false,
+    badge: "Best Value",
   },
 ];
 
 export default function PricingSection() {
   return (
-    <section id="pricing" className="py-28 relative overflow-hidden">
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full bg-primary/[0.03] blur-[150px]" />
-      </div>
+    <section id="pricing" className="py-12 md:py-20 relative overflow-hidden bg-transparent">
+      <div className="bg-mesh opacity-20" />
 
-      <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="text-center mb-20"
-        >
-          <span className="inline-flex items-center gap-2 text-xs font-bold text-primary uppercase tracking-[0.2em] glass-card rounded-full px-5 py-2.5 shadow-soft">
-            💰 Pricing
-          </span>
-          <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground mt-7">
-            Affordable Meal Plans
+      <div className="container mx-auto px-6 relative z-10">
+        {/* Section Header */}
+        <div className="flex flex-col items-center text-center gap-4 mb-12">
+          <div className="badge-premium border-primary/20 bg-primary/5">
+            <span>Membership Protocol</span>
+          </div>
+
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight leading-tight text-foreground">
+            Sovereign <span className="text-primary font-extrabold uppercase tracking-tight">Investment</span>. <br />
+            Total Scalability.
           </h2>
-          <p className="text-muted-foreground mt-4 max-w-md mx-auto text-base">
-            Choose a plan that fits your lifestyle. Cancel or pause anytime.
-          </p>
-        </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto items-start">
-          {plans.map((plan, i) => (
+          <p className="max-w-xl text-sm md:text-base text-muted-foreground/60 font-medium leading-relaxed mt-2">
+            Select an operational tier that fulfills your culinary requirements.
+            Every plan is powered by our high-performance logistics network.
+          </p>
+        </div>
+
+        {/* Pricing Cards */}
+        <div className="grid lg:grid-cols-3 gap-6 max-w-7xl mx-auto items-stretch">
+          {plans.map((plan, idx) => (
             <motion.div
               key={plan.name}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.12, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={!plan.popular ? { y: -8, transition: { duration: 0.3 } } : undefined}
-              className={`relative rounded-3xl p-8 transition-all duration-400 ${
-                plan.popular
-                  ? "bg-secondary text-secondary-foreground shadow-hero scale-[1.04] ring-2 ring-primary/30 z-10"
-                  : "glass-card hover:shadow-card-hover"
-              }`}
+              transition={{ delay: idx * 0.05, duration: 0.6 }}
+              className="h-full"
             >
-              {plan.popular && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  className="absolute -top-3.5 left-1/2 -translate-x-1/2 gradient-hero text-primary-foreground text-xs font-bold px-5 py-2 rounded-full shadow-glow flex items-center gap-1.5"
-                >
-                  <Crown className="h-3.5 w-3.5" />
-                  Most Popular
-                </motion.div>
-              )}
-
-              <div className="text-4xl mb-4">{plan.icon}</div>
-
-              <h3 className={`font-heading font-bold text-xl ${plan.popular ? "" : "text-foreground"}`}>
-                {plan.name}
-              </h3>
-              <p className={`text-sm mt-1.5 ${plan.popular ? "text-secondary-foreground/60" : "text-muted-foreground"}`}>
-                {plan.description}
-              </p>
-
-              <div className="mt-8 mb-8">
-                <span className="font-heading text-5xl font-extrabold tracking-tight">{plan.price}</span>
-                <span className={`text-sm ml-1.5 ${plan.popular ? "text-secondary-foreground/50" : "text-muted-foreground"}`}>
-                  {plan.period}
-                </span>
-              </div>
-
-              <ul className="space-y-3.5 mb-10">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex items-center gap-3 text-sm">
-                    <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      plan.popular ? "bg-primary/20" : "bg-primary/10"
-                    }`}>
-                      <Check className={`h-3 w-3 ${plan.popular ? "text-primary" : "text-primary"}`} />
+              <div
+                className={`premium-card h-full flex flex-col p-10 shadow-2xl ${plan.isPremium ? "border-emerald-500/60 ring-1 ring-emerald-500/20 bg-emerald-500/[0.02]" : ""}`}
+              >
+                <div className="flex flex-col gap-8 h-full">
+                  {/* Plan Top */}
+                  <div className="flex flex-col gap-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-emerald-500">
+                        {plan.name}
+                      </h3>
+                      {plan.badge && (
+                        <span className="bg-emerald-500/10 text-emerald-500 text-[8px] font-black uppercase tracking-[0.1em] px-3 py-1 rounded-full border border-emerald-500/20">
+                          {plan.badge}
+                        </span>
+                      )}
                     </div>
-                    {f}
-                  </li>
-                ))}
-              </ul>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-4xl font-bold text-foreground tracking-tighter">₹{plan.price}</span>
+                      <span className="text-xs font-bold text-muted-foreground/30 uppercase tracking-widest">{plan.period}</span>
+                    </div>
+                    <p className="text-[13px] font-medium text-muted-foreground/60 leading-relaxed">
+                      {plan.description}
+                    </p>
+                  </div>
 
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Button
-                  variant={plan.popular ? "hero" : "outline"}
-                  className={`w-full rounded-2xl h-12 font-semibold ${plan.popular ? "shadow-glow" : "hover:bg-primary/5"}`}
-                  size="lg"
-                  asChild
-                >
-                  <Link to="/register">Subscribe Now</Link>
-                </Button>
-              </motion.div>
+                  {/* Divider Line */}
+                  <div className="h-px w-full bg-border/40" />
+
+                  {/* Features List */}
+                  <div className="flex flex-col gap-5 flex-grow">
+                    <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/20">Network Features</p>
+                    <ul className="space-y-4">
+                      {plan.features.map((feature) => (
+                        <li key={feature} className="flex items-center gap-4 text-[13px] font-bold text-foreground/70">
+                          <div className="w-5 h-5 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500 border border-emerald-500/20 shrink-0 shadow-inner">
+                            <Check className="w-3 h-3 stroke-[3.5]" />
+                          </div>
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Action */}
+                  <Button
+                    variant={plan.isPremium ? "default" : "outline"}
+                    className={`w-full h-12 rounded-xl font-bold transition-none border-none ${plan.isPremium ? "bg-primary text-white shadow-2xl shadow-primary/20" : "bg-muted text-foreground"}`}
+                    asChild
+                  >
+                    <Link to="/register" className="flex items-center justify-center gap-2.5">
+                      <span className="text-sm">Secure Enrollment</span>
+                       <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </div>
             </motion.div>
           ))}
+        </div>
+
+        {/* Closing Trust Section */}
+        <div className="mt-24 text-center">
+          <div className="inline-flex items-center gap-12 opacity-60">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-5 h-5" />
+              <span className="text-[10px] font-black uppercase tracking-widest">PCI Licensed</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Crown className="w-5 h-5" />
+              <span className="text-[10px] font-black uppercase tracking-widest">Quality Insured</span>
+            </div>
+            <div className="flex items-center gap-2 text-primary">
+              <Zap className="w-5 h-5" />
+              <span className="text-[10px] font-black uppercase tracking-widest">Instant Activation</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
