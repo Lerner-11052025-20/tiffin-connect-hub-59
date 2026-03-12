@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
 import bcrypt from 'bcryptjs';
 
-const MONGODB_URI = "mongodb+srv://deepsorathiya803_db_user:tqdw1nA6EARfAhfp@cluster9898.eykquok.mongodb.net/tiffinconnect?retryWrites=true&w=majority&appName=Cluster9898";
+// const MONGODB_URI = "mongodb+srv://deepsorathiya803_db_user:tqdw1nA6EARfAhfp@cluster9898.eykquok.mongodb.net/tiffinconnect?retryWrites=true&w=majority&appName=Cluster9898";
 
 async function run() {
     const client = new MongoClient(MONGODB_URI);
